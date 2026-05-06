@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
 
@@ -7,14 +7,14 @@ services:
     container_name: ims_redis
     ports:
       - "6379:6379"
-      restart: always
+    restart: always
 
   mongodb:
     image: mongo
     container_name: ims_mongodb
-    ports: 
-      - "27017:27017" 
-      restart: always
+    ports:
+      - "27017:27017"
+    restart: always
 
   postgres:
     image: postgres:15
@@ -24,18 +24,16 @@ services:
       POSTGRES_PASSWORD: ims
       POSTGRES_DB: ims_db
     ports:
-      - "5432:5432" 
-
+      - "5432:5432"
     restart: always
 
-    backend:
+  backend:
+    build: ./backend
     container_name: ims_backend
-    ports
-      - "8080:8080"
+    ports:
+      - "8000:8000"
     depends_on:
       - postgres
       - mongodb
       - redis
-    environment:
-      DATABASE_URL: postgresql://ims:ims@postgres:5432/ims_db
     restart: always
