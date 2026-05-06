@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  mongodb:
+    image: mongo
+    container_name: ims_mongodb
+    ports: 
+      - "27017:27017" 
+
+  postgres:
+    image: postgres:15
+    container_name: ims_postgres
+
+    environment:
+      POSTGRES_USER: ims
+      POSTGRES_PASSWORD: ims
+      POSTGRES_DB: ims_db
+
+    ports:
+      - "5432:5432" 
