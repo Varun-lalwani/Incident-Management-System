@@ -4,23 +4,38 @@ services:
 
   redis:
     image: redis:7
+    container_name: ims_redis
     ports:
       - "6379:6379"
+      restart: always
 
   mongodb:
     image: mongo
     container_name: ims_mongodb
     ports: 
       - "27017:27017" 
+      restart: always
 
   postgres:
     image: postgres:15
     container_name: ims_postgres
-
     environment:
       POSTGRES_USER: ims
       POSTGRES_PASSWORD: ims
       POSTGRES_DB: ims_db
-
     ports:
       - "5432:5432" 
+
+    restart: always
+
+    backend:
+    container_name: ims_backend
+    ports
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+    environment:
+      DATABASE_URL: postgresql://ims:ims@postgres:5432/ims_db
+    restart: always
